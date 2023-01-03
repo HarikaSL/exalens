@@ -1,0 +1,87 @@
+function apartmentHunting(blocks, reqs) {
+  // Write your code here.
+
+// updating true to zero and false to infinity
+    for (var obj of blocks) {
+        for (var key of Object.keys(obj)) {
+            if (obj[key] === true) {
+                obj[key] = 0
+            }
+            else {
+                obj[key] = Infinity
+            }
+        }
+    }
+
+    //traversing from 1 to n-1 index and checking i-1 th index and finding the minimum distance
+    for (var i = 1; i < blocks.length; i++) {
+        for (var j = 0; j < reqs.length; j++) {
+            curr = blocks[i][reqs[j]]
+            prev = blocks[i - 1][reqs[j]]
+            if (curr === Infinity) {
+                if (prev === Infinity) {
+                    blocks[i][reqs[j]] = Infinity
+                }
+                else {
+                    temp = prev + 1
+                    blocks[i][reqs[j]] = Math.min(curr, temp)
+
+                }
+            }
+        }
+    }
+
+
+    // traversing from n-2th index to 0th index and checking i+1 index elemnet to find the minimum value
+    for (var i = blocks.length - 2; i >= 0; i--) {
+        for (var j = 0; j < reqs.length; j++) {
+            curr = blocks[i][reqs[j]]
+            prev = blocks[i + 1][reqs[j]]
+            if (curr === Infinity) {
+                if (prev === Infinity) {
+                    blocks[i][reqs[j]] = Infinity
+                }
+                else {
+                    temp = prev + 1
+                    blocks[i][reqs[j]] = Math.min(curr, temp)
+
+
+                }
+            }
+        }
+    }
+
+    // finding density by doing( total sum/ no of non_zeroes)
+    density = []
+    for (const obj of blocks) {
+        var temp = {
+            's': 0,
+            'non_zeroCount': 0
+        }
+        temp.non_zeroCount = Object.values(obj).filter(x => x !== 0).length;
+        for (const key of Object.keys(obj)) {
+            temp.s += obj[key]
+        }
+
+        var d = 0
+        // console.log(d)
+        if (temp.s === 0) {
+            d = 0
+        }
+        else {
+            d = temp.s / temp.non_zeroCount
+        }
+        density.push(d)
+    }
+    // returning the index which has the least density
+    let minValue = Math.min(...density)
+    let minIndex = density.indexOf(minValue)
+    console.log(blocks)
+
+    // minIndex is the index of the block(apartment)
+    return minIndex
+}
+
+// Do not edit the line below.
+exports.apartmentHunting = apartmentHunting;
+
