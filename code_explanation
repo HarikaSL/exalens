@@ -1,0 +1,28 @@
+EXAPLANATION:
+
+STEP 1: For the key value pairs in the array, change the value of true to 0 (zero) because is a block has the requirement the distance to travel/move is zero.
+        chnage the value of false to Infinty
+        
+STEP 2: Traversing through the blocks from 1st index to (n-1)th index (last element), 
+        Maintain 2 variables curr and prev to store the values and update the curr, if curr= Infinity to minimum value by performing the below,
+        prev element is (i-1)th element
+                    temp = prev + 1
+                    blocks[i][reqs[j]] = Math.min(curr, temp)
+                    
+STEP 3:  Traversing through the blocks from (n-2)th index to 0th index (first element), 
+        Maintain 2 variables curr and prev to store the values and update the curr, if curr= Infinity to minimum value by performing the below,
+        prev element is (i+1) element
+                    temp = prev + 1
+                    blocks[i][reqs[j]] = Math.min(curr, temp) 
+                    
+STEP 4: Now we have the minimum distance for all block and requirements to get
+        for every block find the density(gravity) by finding sum of distances divided by number of non_zero distances
+        using this ==>
+                      temp.non_zeroCount = Object.values(obj).filter(x => x !== 0).length;
+                      for (const key of Object.keys(obj)) {
+                           temp.s += obj[key]
+                      }
+        keep all the densities in an array (density)              
+
+STEP 5: if s(sum) = 0, then make its density to 0
+STEP 6: find the index with minimum value and return it
